@@ -1,7 +1,14 @@
+
+import { cookies } from 'next/headers';
 import Link from 'next/link'
 import React from 'react'
 
 const DashboardPage = () => {
+  const sid = cookies().get("sid")?.value;
+
+  if (!sid) {
+    return <div>You must be logged in</div>;
+  }
   return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <h1 className="text-2xl font-bold mb-6">ERP Client Actions</h1>

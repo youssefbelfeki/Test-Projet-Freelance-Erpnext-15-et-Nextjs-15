@@ -22,7 +22,8 @@ export async function loginUser({ email, password }) {
       return { success: false, error: data.message || "Login failed" };
     }
 
-    return { success: true, data };
+    const sid = res.headers.get("set-cookie")?.match(/sid=([^;]+)/)?.[1]
+    return { success: true, data ,sid };
   } catch (error) {
     console.error("Login failed - Exception:", error);
     return { success: false, error: error.message || "Unknown error" };

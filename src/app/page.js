@@ -1,5 +1,4 @@
 import Link from "next/link";
-import 'antd/dist/reset.css';
 
 export default function Home() {
   return (
