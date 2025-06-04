@@ -1,6 +1,7 @@
 "use client";
 
 import { loginUser } from "@/actions/authActions";
+import { setSession } from "@/actions/setSession";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 
@@ -17,8 +18,10 @@ const LoginPage = () => {
     setError(null);
     setSuccess(null);
 
-    loginUser({ email, password }).then((result) => {
+    loginUser({ email, password }).then(async (result) => {
+      console.log("result: ",result)
       if (result.success) {
+        await setSession(result.sid);  // Store sid cookie
         setSuccess("✅ Login successful!");
         setEmail("");
         setPassword("");

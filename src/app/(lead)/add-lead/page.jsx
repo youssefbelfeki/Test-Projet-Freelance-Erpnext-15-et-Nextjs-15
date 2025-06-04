@@ -77,16 +77,16 @@ export default function AddLeadPage() {
         </div> */}
         <div className="flex justify-between mt-6">
           <button
-            type="button"
+            type="submit"
             onClick={() => router.push("/lead")}
             className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
-            disabled={loading}
           >
             Retour
           </button>
           <button
             type="submit"
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            disabled={!loading}
           >
             Save
           </button>
