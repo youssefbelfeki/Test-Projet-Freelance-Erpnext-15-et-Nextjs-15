@@ -3,8 +3,9 @@ import { cookies } from 'next/headers';
 import Link from 'next/link'
 import React from 'react'
 
-const DashboardPage = () => {
-  const sid = cookies().get("sid")?.value;
+const DashboardPage = async () => {
+  const cookieStore = await cookies();
+  const sid = cookieStore.get("sid");
 
   if (!sid) {
     return <div>You must be logged in</div>;

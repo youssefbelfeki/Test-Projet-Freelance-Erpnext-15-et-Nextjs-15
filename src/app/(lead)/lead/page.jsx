@@ -1,10 +1,9 @@
-
 import { cookies } from "next/headers";
 import AllLeadsForm from "./AllLeadsForm";
 
-
-const AllLeadsPage = () => {
-  const sid = cookies().get("sid")?.value;
+const AllLeadsPage = async () => {
+  const cookieStore = await cookies();
+  const sid = cookieStore.get("sid");
   if (!sid) {
     return <div>You must be logged in</div>;
   }

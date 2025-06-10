@@ -4,7 +4,7 @@ export async function loginUser({ email, password }) {
   console.log("Attempting login for:", email);
 
   try {
-    const res = await fetch("http://frontend.localhost:8080/api/method/login", {
+    const res = await fetch("http://localhost:8080/api/method/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

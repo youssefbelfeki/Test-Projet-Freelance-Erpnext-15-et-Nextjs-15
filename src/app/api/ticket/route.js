@@ -19,11 +19,12 @@ export async function GET() {
   return NextResponse.json(data.data); 
 }
 
+
 export async function POST(req) {
   try {
     const form = await req.json(); 
 
-    const erpUrl = `${process.env.BASE_URL}/api/helpdesk/tickets`;
+    const erpUrl = `${process.env.BASE_URL}/api/resource/HD%20Ticket`;
 
     const res = await fetch(erpUrl, {
       method: 'POST',
@@ -34,9 +35,9 @@ export async function POST(req) {
       body: JSON.stringify(form),
       cache: 'no-store',
     });
-    console.log('res',res)
+
     if (!res.ok) {
-      return NextResponse.json({ error: 'Failed to create lead in ERPNext' }, { status: res.status });
+      return NextResponse.json({ error: 'Failed to create Ticket in ERPNext' }, { status: res.status });
     }
 
     const data = await res.json();

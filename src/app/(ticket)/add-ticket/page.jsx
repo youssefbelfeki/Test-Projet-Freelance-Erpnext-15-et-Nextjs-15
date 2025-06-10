@@ -1,17 +1,30 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Spinner from "@/components/Spinner";
 
 const AddTicketPage = () => {
   const router = useRouter();
+  const [email_account, setEmail_account] = useState([]);
+
   const [form, setForm] = useState({
     subject: "",
+    email_account: "",
   });
   const [loading, setLoading] = useState(true);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+  useEffect(() => {
+    fetch("/api/email-accounts")
+      .then((res) => res.json())
+      .then((data) => {
+        setEmail_account(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +42,7 @@ const AddTicketPage = () => {
       if (result.success) {
         router.push("/ticket");
       } else {
-        console.log(result.error || "Erreur lors de l’enregistrement");
+        console.log(result.error);
       }
     } catch (error) {
       console.error(error);
@@ -37,7 +50,10 @@ const AddTicketPage = () => {
       setLoading(false);
     }
   };
-  return (<div className="max-w-lg mx-auto mt-10 bg-white p-6 shadow rounded">
+
+  if (loading) return <Spinner />;
+  return (
+    <div className="max-w-lg mx-auto mt-10 bg-white p-6 shadow rounded">
       <h1 className="text-2xl font-bold mb-6">Ajouter une ticket</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -55,6 +71,25 @@ const AddTicketPage = () => {
             placeholder="Entrez subject"
           />
         </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Email Account
+          </label>
+          <select
+            name="email_account"
+            value={form.email_account}
+            onChange={handleChange}
+            required
+            className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">-- Sélectionnez un compte --</option>
+            {email_account.map((account) => (
+              <option key={account.name} value={account.name}>
+                {account.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="flex justify-between mt-6">
           <button
             type="submit"
@@ -71,7 +106,8 @@ const AddTicketPage = () => {
           </button>
         </div>
       </form>
-    </div>)
+    </div>
+  );
 };
 
 export default AddTicketPage;

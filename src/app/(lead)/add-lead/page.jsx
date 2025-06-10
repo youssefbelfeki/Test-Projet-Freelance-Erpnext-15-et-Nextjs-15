@@ -6,7 +6,7 @@ export default function AddLeadPage() {
   const router = useRouter();
   const [form, setForm] = useState({
     first_name: "",
-    status: "Lead",
+    status: "",
   });
   const [loading, setLoading] = useState(true);
 
@@ -14,30 +14,42 @@ export default function AddLeadPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const statusOptions = [
+    "Lead",
+    "Open",
+    "Replied",
+    "Opportunity",
+    "Quotation",
+    "Lost Quotation",
+    "Interested",
+    "Converted",
+    "Do Not Contact",
+  ];
+
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
+    e.preventDefault();
+    setLoading(true);
 
-  try {
-    const response = await fetch('/api/lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    });
+    try {
+      const response = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    const result = await response.json();
+      const result = await response.json();
 
-    if (result.success) {
-      router.push('/lead');
-    } else {
-      alert(result.error || 'Erreur lors de l’enregistrement');
+      if (result.success) {
+        router.push("/lead");
+      } else {
+        console.log(result.error);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <div className="max-w-lg mx-auto mt-10 bg-white p-6 shadow rounded">
@@ -58,23 +70,25 @@ export default function AddLeadPage() {
             placeholder="Entrez le nom"
           />
         </div>
-        {/* <div>
+        <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Source du Lead
+            Status
           </label>
           <select
-            name="source"
+            name="status"
             value={form.status}
             onChange={handleChange}
             required
             className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="">-- Sélectionnez une source --</option>
-            <option value="Cold">Cold</option>
-            <option value="Referral">Referral</option>
-            <option value="Social Media">Social Media</option>
+            <option value="">-- Sélectionnez un statut --</option>
+            {statusOptions.map((status) => (
+              <option key={status} value={status}>
+                {status}
+              </option>
+            ))}
           </select>
-        </div> */}
+        </div>
         <div className="flex justify-between mt-6">
           <button
             type="submit"
