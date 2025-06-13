@@ -19,7 +19,7 @@ const AllLeadsForm = (sid) => {
 
   if (loading) return <Spinner />;
   return (
-    <div className="mx-auto p-4 h-screen bg-gray-100">
+    <div className="mx-auto p-8 h-screen bg-gray-100">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">All Leads</h1>
         <Link
