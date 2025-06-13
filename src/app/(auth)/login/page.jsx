@@ -19,15 +19,14 @@ const LoginPage = () => {
     setSuccess(null);
 
     loginUser({ email, password }).then(async (result) => {
-      console.log("result: ",result)
       if (result.success) {
-        await setSession(result.sid);  // Store sid cookie
-        setSuccess("✅ Login successful!");
+        await setSession(result.sid);
+        setSuccess("Login successful!");
         setEmail("");
         setPassword("");
         redirect("/dashboard")
       } else {
-        setError(result.error || "❌ Login failed");
+        setError(result.error || "Login failed");
       }
 
       setLoading(false);
